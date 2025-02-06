@@ -28,6 +28,16 @@ function App() {
           task={task}
         />
       )}
+
+    {isVisible ?  (
+        <FunctionComponent
+          prop1='test prop 1'
+          prop2
+          prop3={4}
+          prop4={{ id: 0 }}
+          task={task}
+        />
+      ) : <div>No component shown. Click button to reveal</div>}
     </>
   );
 }
