@@ -40,6 +40,36 @@ class ClassComponent extends Component {
     });
   };
 
+  componentDidMount () {
+    console.log('запускається на першому рендері');
+
+    this.intervalId = setInterval(() => {
+      console.log('fake click');
+      this.setState((state) => {
+        return {
+          clicks: state.clicks + 1
+        }
+      })
+    }, 2000);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    console.log('запускається на усіх наступних ререндерах після першого');
+
+    if(Math.random() > 0.5) {
+      this.setState({
+        clicks: this.state.clicks + 1
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    console.log('запускається перед розмонтуванням компонента');
+
+    clearInterval(this.intervalId);
+  }
+  
+
   render() {
     const {
       task: { title },
