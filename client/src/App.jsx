@@ -2,7 +2,7 @@ import { useState } from 'react';
 import cx from 'classnames';
 import ClassComponent from './components/ClassComponent';
 import FunctionComponent from './components/FunctionalComponent';
-import styles from './App.module.css';
+import styles from './App.module.scss';
 
 const task = {
   title: 'Learn fullstack',
