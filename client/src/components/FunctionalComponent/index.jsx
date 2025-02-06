@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import styles from './style.module.css';
 
 function FunctionComponent(props) {
   const {
@@ -62,7 +63,7 @@ function FunctionComponent(props) {
 
   return (
     <div>
-      <h2>Function component</h2>
+      <h2 className={styles.heading}>Function component</h2>
       <p>{title}</p>
       {/* <p>Task status: { isDone ? 'Done' : 'Not Done'}</p> */}
       {par}
