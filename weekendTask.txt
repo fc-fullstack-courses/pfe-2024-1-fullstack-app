@@ -1,0 +1,12 @@
+Написати базовий сервер на експресі з CRUD для сутності користувача
+    Структура об'єкту користувача:
+      id: string
+      firstName: string
+      lastName: string
+      imgSrc: string(img name / URL)
+      isMale: boolean
+      email: string
+      password: string
+
+  БД використовуйте яку хочете. Прикрутіть валідацію на сервері
+  міддлверами та yup-ом
