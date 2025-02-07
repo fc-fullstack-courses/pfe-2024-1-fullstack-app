@@ -1,10 +1,11 @@
-import { NavLink } from 'react-router';
+import Navigation from '../Navigation';
+import s from './Header.module.scss';
 
-const Header = () => {
+function Header() {
   return (
-    <header>
-      <NavLink to='/'>Home</NavLink>
-      <NavLink to='/about'>About</NavLink>
+    <header className={s.header}>
+      <h1 className={s.heading}>Heading</h1>
+      <Navigation/>
     </header>
   );
 }

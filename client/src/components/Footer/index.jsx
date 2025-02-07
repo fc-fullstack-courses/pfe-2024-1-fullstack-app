@@ -1,8 +1,10 @@
-const Footer = () => {
+import s from './Footer.module.scss';
+
+function Footer() {
   return (
-    <div>
-      <p>All rights reserved. 2025</p>
-    </div>
+    <footer className={s.footer}>
+      <p>&copy; 2025 All rights reserved.</p>
+    </footer>
   );
 }
 
