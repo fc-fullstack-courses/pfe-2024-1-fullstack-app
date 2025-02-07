@@ -7,6 +7,7 @@ import LoginPage from './pages/Login';
 import RegistrationPage from './pages/Registration';
 import BasicLayout from './Layouts/MainLayout';
 import UserProfile from './components/UserProfile ';
+import UsersPage from './pages/Users';
 
 function App() {
   const [user, setUser] = useState({
@@ -27,6 +28,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path='/about' element={<About />} />
           <Route path='/profile' element={<UserProfile user={user}/>} />
+          <Route path='/users' element={<UsersPage />} />
         </Route>
 
         <Route path='/auth' element={<AuthLayout />}>
