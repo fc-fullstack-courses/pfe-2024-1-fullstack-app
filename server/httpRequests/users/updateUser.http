@@ -1,0 +1,8 @@
+PUT http://localhost:5000/users/10
+Content-Type: application/json
+
+{
+  "firstName": "asdfasdfasd",
+  "lastName": "12312dfas31asdafsdasdf",
+  "isMale": true
+}
