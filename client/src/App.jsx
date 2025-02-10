@@ -11,15 +11,7 @@ import UsersPage from './pages/Users';
 import { UserContext } from './contexts';
 
 function App() {
-  const [user, setUser] = useState({
-    id: '12345',
-    firstName: 'User',
-    lastName: 'Userenko',
-    imgSrc: 'https://cdn-icons-png.flaticon.com/512/3607/3607444.png',
-    isMale: true,
-    email: 'userUserenko@example.com',
-    password: 'supersecurepassword123',
-  });
+  const [user, setUser] = useState(null);
 
   return (
     <UserContext.Provider value={[user, setUser]}>

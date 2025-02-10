@@ -1,7 +1,10 @@
+import { useContext } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import cx from 'classnames';
 import { USER_REGISTRATION_SCHEMA } from '../../validation/userValidation';
 import styles from './RegistrationForm.module.scss';
+import { UserContext } from '../../contexts';
+import { registerUser } from '../../api';
 
 const initialValues = {
   firstName: '',
@@ -14,15 +17,19 @@ const initialValues = {
 };
 
 const RegistrationForm = () => {
-  const handleSubmit = (values, formikBag) => {
+  const [, setUser] = useContext(UserContext);
+
+  const handleSubmit = async (values, formikBag) => {
     const { gender, ...restOfUserData } = values;
 
     const newUserData = {
       ...restOfUserData,
       isMale: gender === 'male',
     };
+    
+    const registeredUser = await registerUser(newUserData);
 
-    console.log(newUserData);
+    setUser(registeredUser);
 
     formikBag.resetForm();
   };
