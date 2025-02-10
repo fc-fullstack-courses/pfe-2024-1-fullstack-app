@@ -6,7 +6,7 @@ import AuthLayout from './Layouts/AuthLayout';
 import LoginPage from './pages/Login';
 import RegistrationPage from './pages/Registration';
 import BasicLayout from './Layouts/MainLayout';
-import UserProfile from './components/UserProfile ';
+import UserProfilePage from './pages/UserProfile';
 import UsersPage from './pages/Users';
 import { UserContext } from './contexts';
 
@@ -28,7 +28,7 @@ function App() {
         <Route path='/' element={<BasicLayout />} >
           <Route index element={<Home />} />
           <Route path='/about' element={<About />} />
-          <Route path='/profile' element={<UserProfile />} />
+          <Route path='/profile' element={<UserProfilePage />} />
           <Route path='/users' element={<UsersPage />} />
         </Route>
 
