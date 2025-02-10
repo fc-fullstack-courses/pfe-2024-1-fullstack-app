@@ -10,7 +10,7 @@ function Navigation() {
       <ul className={styles.navigation}>
         <li className={styles.navigationItem}>
           <NavLink to="/" className={setActive}>
-            Profile
+            Home
           </NavLink>
         </li>
         <li className={styles.navigationItem}>
@@ -19,13 +19,13 @@ function Navigation() {
           </NavLink>
         </li>
         <li className={styles.navigationItem}>
-          <NavLink to="/services" className={setActive}>
-            Services
+          <NavLink to="/profile" className={setActive}>
+            Profile
           </NavLink>
         </li>
         <li className={styles.navigationItem}>
-          <NavLink to="/contact" className={setActive}>
-            Contacts
+          <NavLink to="/users" className={setActive}>
+            Users
           </NavLink>
         </li>
       </ul>

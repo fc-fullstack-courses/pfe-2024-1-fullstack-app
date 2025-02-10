@@ -1,0 +1,14 @@
+%link {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+
+  &:hover {
+    color: #61dafb;
+  }
+}
+
+%activeLink {
+  text-decoration: none;
+  color: #007bff;
+}
