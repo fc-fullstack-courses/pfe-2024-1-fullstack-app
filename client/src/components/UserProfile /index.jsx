@@ -1,7 +1,12 @@
 import PropTypes from 'prop-types';
+import { useContext } from 'react';
+import { UserContext } from '../../contexts';
 import styles from './UserProfile .module.scss';
 
-function UserProfile({ user }) {
+function UserProfile() {
+
+  const [user] = useContext(UserContext);
+  
   const { firstName, lastName, imgSrc, isMale, email } = user;
   return (
     <article className={styles.userProfile}>
