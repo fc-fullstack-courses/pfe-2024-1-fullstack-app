@@ -1,6 +1,8 @@
 'use strict';
 const { Model } = require('sequelize');
-const { PASSWORD_REGEX } = require('../../constants');
+const bcrypt =require('bcrypt');
+const { PASSWORD_REGEX, SALT_ROUNDS } = require('../../constants');
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -67,5 +69,17 @@ module.exports = (sequelize, DataTypes) => {
       underscored: true,
     }
   );
+
+  const hashPassword = async(user, options) => {
+    if(user.changed('password')) {
+      // хешування пароля
+      const hashedPassword = await bcrypt.hash(user.password, SALT_ROUNDS);
+      // перед збереженням даних заміняємо парол його хешем
+      user.password = hashedPassword;
+    }
+  }
+
+  User.beforeCreate(hashPassword);
+  User.beforeUpdate(hashPassword);
   return User;
 };
