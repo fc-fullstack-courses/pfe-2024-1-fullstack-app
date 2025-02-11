@@ -5,7 +5,7 @@ const httpClient = axios.create({
 });
 
 export async function registerUser(userData) {
-  const response = await httpClient.post('/users', userData);
+  const response = await httpClient.post('/auth/registration', userData);
 
   const { data: { data : user}} = response;
 
