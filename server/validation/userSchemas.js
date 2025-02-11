@@ -29,6 +29,11 @@ module.exports.CREATE_USER_SCHEMA = yup.object({
   passwordRepeat: USER_PASSWORD_REPEAT_SCHEMA.required(),
 });
 
+module.exports.LOGIN_USER_SCHEMA = yup.object({
+  email: USER_EMAIL_SCHEMA.required(),
+  password: USER_PASSWORD_SCHEMA.required(),
+});
+
 module.exports.UPDATE_USER_SCHEMA = yup.object({
   firstName: USER_FIRSTMANE_SCHEMA,
   lastName: USER_LASTNAME_SCHEMA,

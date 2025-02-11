@@ -1,6 +1,6 @@
 const authRouter = require('express').Router();
 const { imagesUpload } = require('../utils/multer');
-const { createUserValidationMW } = require('../middlewares/usersMW');
+const { loginMW, createUserValidationMW } = require('../middlewares/authMW');
 const AuthController = require('../controllers/authController');
 
 authRouter.post(
@@ -10,6 +10,6 @@ authRouter.post(
   AuthController.registration
 );
 
-authRouter.post('/login', AuthController.login);
+authRouter.post('/login', loginMW, AuthController.login);
 
 module.exports = authRouter;
