@@ -11,7 +11,11 @@ module.exports.registration = async (req, res, next) => {
       imgSrc: file ? file.filename : null,
     });
 
-    res.status(201).send({ data: user });
+    const preparedUser = user.toJSON();
+
+    delete preparedUser.password;
+  
+    res.status(201).send({ data: preparedUser });
   } catch (error) {
     next(error);
   }
