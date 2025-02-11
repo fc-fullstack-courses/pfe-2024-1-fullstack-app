@@ -12,6 +12,12 @@ export async function registerUser(userData) {
   return user;
 }
 
+export async function login(userData) {
+  const { data: {data: user}} = await httpClient.post('/auth/login', userData);
+
+  return user;
+}
+
 export async function getUser(userId) {
   const response = await httpClient.get(`/users/${userId}`);
 

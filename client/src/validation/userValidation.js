@@ -22,6 +22,11 @@ const USER_REGISTRATION_SCHEMA = yup.object({
   gender: yup.string().required(),
 });
 
+const USER_LOGIN_SCHEMA = yup.object({
+  email: USER_EMAIL_SCHEMA.required(),
+  password: USER_PASSWORD_SCHEMA.required(),
+});
+
 const USER_UPDATE_SCHEMA = yup.object({
   firstName: yup.string().min(2),
   lastName: yup.string().min(2),
@@ -31,4 +36,4 @@ const USER_UPDATE_SCHEMA = yup.object({
   gender: yup.string(),
 });
 
-export { USER_REGISTRATION_SCHEMA, USER_UPDATE_SCHEMA };
+export { USER_REGISTRATION_SCHEMA, USER_UPDATE_SCHEMA, USER_LOGIN_SCHEMA };
