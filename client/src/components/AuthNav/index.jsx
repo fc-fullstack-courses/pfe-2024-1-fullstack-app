@@ -1,11 +1,15 @@
 import { NavLink, useLocation } from 'react-router';
 import styles from './AuthNav.module.scss';
+import { useContext } from 'react';
+import { UserContext } from '../../contexts';
+import { logout } from '../../api';
 
 const setActive = ({ isActive }) =>
   isActive ? styles.activeLink : styles.link;
 
 const AuthNav = () => {
   const location = useLocation();
+  const [user, setUser] = useContext(UserContext);
 
   const isAuthPage = location.pathname.includes('auth');
   const isLoginPage = location.pathname.includes('login');
@@ -30,9 +34,14 @@ const AuthNav = () => {
     </>
   );
 
+  const logoutBtn = <button onClick={() => {
+    logout();
+    setUser(null);
+  }}>Logout</button>
+
   return (
     <div className={styles.container}>
-      {isAuthPage ? authLinks : guestLinks}
+      {user ? logoutBtn : isAuthPage ? authLinks : guestLinks}
     </div>
   );
 };
