@@ -1,12 +1,12 @@
 const authRouter = require('express').Router();
 const { imagesUpload } = require('../utils/multer');
-const { loginMW, createUserValidationMW } = require('../middlewares/authMW');
+const { loginMW, registrationMW } = require('../middlewares/authMW');
 const AuthController = require('../controllers/authController');
 
 authRouter.post(
   '/registration',
   imagesUpload.single('imgSrc'),
-  createUserValidationMW,
+  registrationMW,
   AuthController.registration
 );
 
