@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -9,9 +9,21 @@ import BasicLayout from './Layouts/MainLayout';
 import UserProfilePage from './pages/UserProfile';
 import UsersPage from './pages/Users';
 import { UserContext } from './contexts';
+import { refreshSession } from './api';
 
 function App() {
   const [user, setUser] = useState(null);
+
+  useEffect(() =>{
+    const refreshToken = localStorage.getItem('refresh');
+
+    if(refreshToken) {
+      refreshSession(refreshToken).then((userFromServer) => {
+        setUser(userFromServer);
+      })
+    }
+
+  }, []);
 
   return (
     <UserContext.Provider value={[user, setUser]}>

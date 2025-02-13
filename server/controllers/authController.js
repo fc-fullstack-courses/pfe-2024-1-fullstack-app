@@ -56,4 +56,27 @@ module.exports.login = async (req, res, next) => {
   }
 };
 
-// TODO інші методи автентифікації
+// оновлення сесії по якимось даним з фронта
+module.exports.refreshSession = async (req, res, next) => {
+  try {
+    // якщо надіслали ПОСТ запит з айді то реба оновити сесію
+    const { body : { userId }} = req;
+
+    // 1. шукаємо користувача
+    const user = await User.findByPk(userId);
+
+    // 2. кидаємо помилку якщо такого не існує
+    if(!user) {
+      throw new createHttpError(404, 'User not found.');
+    }
+
+     // 3. надсилаємо дані про користувача (без паролю)
+    const preparedUser = user.toJSON();
+
+    delete preparedUser.password;
+
+    res.status(200).send({ data: preparedUser });
+  } catch (error) {
+    next(error);
+  }
+}

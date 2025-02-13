@@ -30,6 +30,7 @@ const RegistrationForm = () => {
     const registeredUser = await registerUser(newUserData);
 
     setUser(registeredUser);
+    window.localStorage.setItem('refresh', registeredUser.id);
 
     formikBag.resetForm();
   };

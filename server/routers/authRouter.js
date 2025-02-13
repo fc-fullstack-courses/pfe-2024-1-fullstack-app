@@ -12,4 +12,6 @@ authRouter.post(
 
 authRouter.post('/login', loginMW, AuthController.login);
 
+authRouter.post('/refresh', AuthController.refreshSession);
+
 module.exports = authRouter;

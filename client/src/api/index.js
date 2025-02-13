@@ -18,6 +18,12 @@ export async function login(userData) {
   return user;
 }
 
+export async function refreshSession(userId) {
+  const { data: {data: user}} = await httpClient.post('/auth/refresh', { userId});
+
+  return user;
+}
+
 export async function getUser(userId) {
   const response = await httpClient.get(`/users/${userId}`);
 
