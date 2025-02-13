@@ -2,5 +2,5 @@ POST http://localhost:5000/auth/refresh
 Content-Type: application/json
 
 {
-  "userId": 8
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwiaWF0IjoxNzM5NDczMDk4LCJleHAiOjE3NDAwNzc4OTh9.PoMJAakGCJUSP8Q7LBqF863IY2vi-_RHxl-wxOHJHrg"
 }

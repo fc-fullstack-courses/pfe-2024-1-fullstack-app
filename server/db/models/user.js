@@ -1,6 +1,6 @@
 'use strict';
 const { Model } = require('sequelize');
-const bcrypt =require('bcrypt');
+const bcrypt = require('bcrypt');
 const { PASSWORD_REGEX, SALT_ROUNDS } = require('../../constants');
 
 module.exports = (sequelize, DataTypes) => {
@@ -10,8 +10,14 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
+    static associate({ RefreshToken }) {
       // define association here
+
+      User.hasMany(RefreshToken, {
+        foreignKey: 'userId',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      });
     }
   }
   User.init(
@@ -70,14 +76,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  const hashPassword = async(user, options) => {
-    if(user.changed('password')) {
+  const hashPassword = async (user, options) => {
+    if (user.changed('password')) {
       // хешування пароля
       const hashedPassword = await bcrypt.hash(user.password, SALT_ROUNDS);
       // перед збереженням даних заміняємо парол його хешем
       user.password = hashedPassword;
     }
-  }
+  };
 
   User.beforeCreate(hashPassword);
   User.beforeUpdate(hashPassword);

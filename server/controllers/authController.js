@@ -1,6 +1,11 @@
 const createHttpError = require('http-errors');
 const bcrypt = require('bcrypt');
-const { User } = require('../db/models');
+const { promisify } = require('node:util');
+const { sign, verify } = require('jsonwebtoken');
+const { User, RefreshToken } = require('../db/models');
+
+const jwtSign = promisify(sign);
+const jwtVerify = promisify(verify);
 
 module.exports.registration = async (req, res, next) => {
   try {
@@ -11,11 +16,24 @@ module.exports.registration = async (req, res, next) => {
       imgSrc: file ? file.filename : null,
     });
 
+    // генеруємо JWT для можливого рефрешу або для маршрутів зщо потребують авторизації
+    const token = await jwtSign(
+      {
+        id: user.id,
+      },
+      'sdjfhubf43b45rh33he940hr94hr93',
+      {
+        expiresIn: '7d',
+      }
+    );
+
+    await RefreshToken.create({ userId: user.id, token });
+
     const preparedUser = user.toJSON();
 
     delete preparedUser.password;
-  
-    res.status(201).send({ data: preparedUser });
+
+    res.status(201).send({ data: { preparedUser, token } });
   } catch (error) {
     next(error);
   }
@@ -50,7 +68,19 @@ module.exports.login = async (req, res, next) => {
 
     delete preparedUser.password;
 
-    res.status(200).send({ data: preparedUser });
+    const token = await jwtSign(
+      {
+        id: user.id,
+      },
+      'sdjfhubf43b45rh33he940hr94hr93',
+      {
+        expiresIn: '7d',
+      }
+    );
+
+    await RefreshToken.create({ userId: user.id, token });
+
+    res.status(201).send({ data: { user: preparedUser, token } });
   } catch (error) {
     next(error);
   }
@@ -59,24 +89,57 @@ module.exports.login = async (req, res, next) => {
 // оновлення сесії по якимось даним з фронта
 module.exports.refreshSession = async (req, res, next) => {
   try {
-    // якщо надіслали ПОСТ запит з айді то реба оновити сесію
-    const { body : { userId }} = req;
+    // якщо надіслали ПОСТ запит з токеном то реба оновити сесію
+    const {
+      body: { refreshToken },
+    } = req;
 
-    // 1. шукаємо користувача
-    const user = await User.findByPk(userId);
+    // 1. перевірити валідність токена
+    const { id } = await jwtVerify(
+      refreshToken,
+      'sdjfhubf43b45rh33he940hr94hr93'
+    );
 
-    // 2. кидаємо помилку якщо такого не існує
-    if(!user) {
+    // 2. Перевірити наявність токену у БД
+    const foundToken = await RefreshToken.findOne({
+      where: {
+        token: refreshToken,
+        userId: id,
+      },
+    });
+
+    if (!foundToken) {
+      throw new createHttpError(404, 'Token not found.');
+    }
+
+    // 3. шукаємо користувача
+    const user = await User.findByPk(id);
+
+    // 4. кидаємо помилку якщо такого не існує
+    if (!user) {
       throw new createHttpError(404, 'User not found.');
     }
 
-     // 3. надсилаємо дані про користувача (без паролю)
+    // 5. Анулюємо старий токен, перезаписуючи його у БД новим
+    const token = await jwtSign(
+      {
+        id: user.id,
+      },
+      'sdjfhubf43b45rh33he940hr94hr93',
+      {
+        expiresIn: '7d',
+      }
+    );
+
+    await foundToken.update({ token });
+
+    // 3. надсилаємо дані про користувача (без паролю)
     const preparedUser = user.toJSON();
 
     delete preparedUser.password;
 
-    res.status(200).send({ data: preparedUser });
+    res.status(200).send({ data: { user: preparedUser, token } });
   } catch (error) {
     next(error);
   }
-}
+};
