@@ -7,6 +7,7 @@ const {
 } = require('../middlewares/usersMW');
 const { imagesUpload } = require('../utils/multer');
 const paginate = require('../middlewares/paginate');
+const { checkAccessToken } = require('../middlewares/tokenMW');
 
 userRouter.post(
   '/',
@@ -20,6 +21,7 @@ userRouter.get('/:userId', findUserById, UserController.getUser);
 
 userRouter.put(
   '/:userId',
+  checkAccessToken,
   imagesUpload.single('imgSrc'),
   updateUserValidationMW,
   findUserById,

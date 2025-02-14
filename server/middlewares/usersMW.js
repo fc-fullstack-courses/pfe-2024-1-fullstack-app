@@ -9,7 +9,12 @@ module.exports.findUserById = async (req, res, next) => {
   try {
     const {
       params: { userId },
+      // tokenData: {id} 
     } = req;
+
+    // if(userId !== id) {
+    //   throw createHttpError(403, `wrong userId`);
+    // }
 
     const user = await User.findByPk(userId);
 
