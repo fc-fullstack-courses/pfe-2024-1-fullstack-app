@@ -18,7 +18,6 @@ const LoginForm = () => {
     const user = await login(values);
 
     setUser(user);
-    window.localStorage.setItem('refresh', user.id);
 
     formikBag.resetForm();
   };

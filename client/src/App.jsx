@@ -15,7 +15,7 @@ function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() =>{
-    const refreshToken = localStorage.getItem('refresh');
+    const refreshToken = localStorage.getItem('refreshToken');
 
     if(refreshToken) {
       refreshSession(refreshToken).then((userFromServer) => {
