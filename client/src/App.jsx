@@ -10,12 +10,13 @@ import UserProfilePage from './pages/UserProfile';
 import UsersPage from './pages/Users';
 import { UserContext } from './contexts';
 import { refreshSession } from './api';
+import CONSTANTS from './constants';
 
 function App() {
   const [user, setUser] = useState(null);
 
   useEffect(() =>{
-    const refreshToken = localStorage.getItem('refreshToken');
+    const refreshToken = localStorage.getItem(CONSTANTS.REFRESH_TOKEN_KEY);
 
     if(refreshToken) {
       refreshSession(refreshToken).then((userFromServer) => {

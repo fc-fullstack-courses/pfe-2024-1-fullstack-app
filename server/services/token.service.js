@@ -1,17 +1,18 @@
 const jwt = require('jsonwebtoken');
 const { promisify } = require('node:util');
+const  CONSTANTS  = require('../constants');
 
 const jwtSign = promisify(jwt.sign);
 const jwtVerify = promisify(jwt.verify);
 
 const tokenConfig = {
   access: {
-    secret: 'sdjfhubf43b45rh33he940hr94hr93',
-    expiresIn: '30s',
+    secret: CONSTANTS.ACCESS_TOKEN_SECRET,
+    expiresIn: CONSTANTS.ACCESS_TOKEN_EXPIRES_IN,
   },
   refresh: {
-    secret: 'szdbvfvbrgvbficbg546rDKGejtg4Gryebvf237y4',
-    expiresIn: '14d',
+    secret: CONSTANTS.REFRESH_TOKEN_SECRET,
+    expiresIn: CONSTANTS.REFRESH_TOKEN_EXPIRES_IN,
   },
 };
 
