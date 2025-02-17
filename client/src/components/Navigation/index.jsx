@@ -28,6 +28,11 @@ function Navigation() {
             Users
           </NavLink>
         </li>
+        <li className={styles.navigationItem}>
+          <NavLink to="/counter" className={setActive}>
+            Counter
+          </NavLink>
+        </li>
       </ul>
     </nav>
   );
