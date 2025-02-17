@@ -1,4 +1,5 @@
 import { useReducer } from 'react';
+import ACTION_TYPES from './actionTypes';
 
 /*
   reducer - чиста функція яка використовується реактом для визначення нового стану
@@ -11,7 +12,7 @@ function reducer(state, action) {
 
   // по типу події визначаємо що саме робимо
   switch (action.type) {
-    case 'increment': {
+    case ACTION_TYPES.INCREMENT: {
       // генеруємо новий стан та повертаємо його як результат
       const newState = {
         ...state,
@@ -20,7 +21,7 @@ function reducer(state, action) {
 
       return newState;
     }
-    case 'setStep': {
+    case ACTION_TYPES.SET_STEP: {
       const newStep = isNaN(+action.payload) ? state.step : +action.payload;
 
       const newState = {
@@ -51,7 +52,7 @@ const Counter = (props) => {
     // setState(state.count + state.step);
 
     const action = {
-      type: 'increment',
+      type: ACTION_TYPES.INCREMENT,
     };
 
     // діспачт хоче прийняти екшн - об'єкт у якому буде достатньо інформації
@@ -61,7 +62,7 @@ const Counter = (props) => {
 
   const handleChangeStep = ({ target: { value } }) => {
     const action = {
-      type: 'setStep',
+      type: ACTION_TYPES.SET_STEP,
       payload: value,
     };
 

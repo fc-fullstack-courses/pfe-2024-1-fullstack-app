@@ -1,0 +1,6 @@
+const ACTION_TYPES = {
+  INCREMENT: 'INCREMENT', 
+  SET_STEP: 'SET_STEP'
+}
+
+export default ACTION_TYPES;
