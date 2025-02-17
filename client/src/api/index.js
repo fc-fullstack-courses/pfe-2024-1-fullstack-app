@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { checkToken } from '../utils/tokenUtils';
 
 const httpClient = axios.create({
   baseURL: 'http://localhost:5000'
@@ -6,9 +7,54 @@ const httpClient = axios.create({
 
 let accessTokenInMemory = null;
 
+function setTokens (tokenPair) {
+  const { accessToken, refreshToken } = tokenPair;
+  // зберігаємо наші токени
+  accessTokenInMemory = accessToken;
+  // console.log(`Access token: ${accessTokenInMemory}`);
+  window.localStorage.setItem('refreshToken', refreshToken);
+}
+
+function clearTokens () {
+  accessTokenInMemory = null;
+  localStorage.removeItem('refreshToken');
+}
+
 // додавання перехоплювачів на запит
-httpClient.interceptors.request.use(function (config) {
+httpClient.interceptors.request.use(async function (config) {
   // зробити щось до відправки запиту
+
+  if(config.url.includes('auth')) {
+    return config;
+  }
+
+  // 1. знаходимо акцесс і рефреш токени
+  const refreshTokenFromLS = localStorage.getItem('refreshToken');
+  
+  // 2. треба перевірити чи валідні ці токени
+
+  const isAccessValid = checkToken(accessTokenInMemory);
+  const isRefreshValid = checkToken(refreshTokenFromLS);
+
+  if(isAccessValid) {
+    // 2.1 якщо всі токени валідні то встановлюґємо аккцесс токен у заголовок
+    config.headers.Authorization = `Bearer ${accessTokenInMemory}`;
+  } else if(isRefreshValid) {
+    // 2.2 якщо акцесс невалідний а рефреш валідний - маємо зробити рефреш запит і оновити обидва токени
+
+    const {
+      data: {
+        data: { tokenPair }
+      }
+    } = await axios.post('http://localhost:5000/auth/refresh', { refreshToken : refreshTokenFromLS });
+
+    setTokens(tokenPair);
+
+    config.headers.Authorization = `Bearer ${accessTokenInMemory}`;
+  } else {
+    // 2.3 якщо обидва невалідні то пролітаємо
+    clearTokens();
+  }
 
   return config;
 }, function (error) {
@@ -23,12 +69,9 @@ httpClient.interceptors.response.use(function (response) {
 
   // перевірити чи є у відповіді токени
   if(response?.data?.data?.tokenPair) {
-    const { accessToken, refreshToken } = response.data.data.tokenPair;
+    const { tokenPair } = response.data.data;
 
-    // зберігаємо наші токени
-    accessTokenInMemory = accessToken;
-    console.log(`Access token: ${accessTokenInMemory}`);
-    window.localStorage.setItem('refreshToken', refreshToken);
+    setTokens(tokenPair);  
   }
 
   return response;
@@ -53,7 +96,7 @@ export async function login(userData) {
 }
 
 export const logout = () => {
-  window.localStorage.removeItem('refresh');
+  clearTokens();
 }
 
 export async function refreshSession(refreshToken) {

@@ -10,7 +10,7 @@ module.exports.checkAccessToken = async (req, res, next) => {
       headers: { authorization },
     } = req;
 
-    console.log(authorization)
+    // console.log(authorization)
 
     // 1. перевірити наявність заголовку
     if(!authorization) {
