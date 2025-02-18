@@ -13,26 +13,25 @@ import { refreshSession } from './api';
 import CONSTANTS from './constants';
 import PrivateRoute from './components/Routes/PrivateRoute';
 import CounterPage from './pages/CounterPage';
+import PublicOnlyRoute from './components/Routes/PublicOnlyRoute';
 
 function App() {
   const [user, setUser] = useState(null);
 
-  useEffect(() =>{
+  useEffect(() => {
     const refreshToken = localStorage.getItem(CONSTANTS.REFRESH_TOKEN_KEY);
 
-    if(refreshToken) {
+    if (refreshToken) {
       refreshSession(refreshToken).then((userFromServer) => {
         setUser(userFromServer);
-      })
+      });
     }
-
   }, []);
 
   return (
     <UserContext.Provider value={[user, setUser]}>
       <Routes>
-
-        <Route path='/' element={<BasicLayout />} >
+        <Route path='/' element={<BasicLayout />}>
           <Route index element={<Home />} />
           <Route path='/about' element={<About />} />
           <Route path='/counter' element={<CounterPage />} />
@@ -45,12 +44,13 @@ function App() {
         </Route>
 
         <Route path='/auth' element={<AuthLayout />}>
-          {/* '/auth/login */}
-          <Route path='login' element={<LoginPage />} />
-          {/* '/auth/registration */}
-          <Route path='registration' element={<RegistrationPage />} />
+          <Route element={<PublicOnlyRoute />}>
+            {/* '/auth/login */}
+            <Route path='login' element={<LoginPage />} />
+            {/* '/auth/registration */}
+            <Route path='registration' element={<RegistrationPage />} />
+          </Route>
         </Route>
-
       </Routes>
     </UserContext.Provider>
   );
