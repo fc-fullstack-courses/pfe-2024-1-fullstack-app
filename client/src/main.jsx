@@ -1,58 +1,11 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router';
-import { legacy_createStore as createStore } from 'redux';
 import { Provider } from 'react-redux';
 import './index.css';
 import App from './App.jsx';
 import ReduxCounter from './components/ReduxCounter/index.jsx';
-
-// початковий стан для редюсера
-const initialState = {
-  count: 0,
-  step: 1,
-};
-
-// базовий редаксівський редюсер
-// початковий стан передаємо як значення за замовчанням для state
-function reducer(state = initialState, action) {
-  // по типу екшену визначаємо його логіку
-  switch (action.type) {
-    case 'increment': {
-      // створюємо новий стан та повертаємо як результат редюсера
-      const newState = {
-        ...state,
-        count: state.count + state.step,
-      };
-
-      return newState;
-    }
-    case 'decrement': {
-      const newState = {
-        ...state,
-        count: state.count - state.step,
-      };
-
-      return newState;
-    }
-    case 'setStep': {
-      const newStep = +action.payload;
-
-      const newState = {
-        ...state,
-        step: !isNaN(newStep) ? newStep : state.step
-      };
-
-      return newState;
-    }
-    // якщо тип екшена невідомий або відсутній то повертаємо старий стан
-    default:
-      return state;
-  }
-}
-
-// створення стори станів редаксу
-const store = createStore(reducer);
+import store from './store/index.js';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
