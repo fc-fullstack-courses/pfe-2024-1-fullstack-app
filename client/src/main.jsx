@@ -27,6 +27,24 @@ function reducer(state = initialState, action) {
 
       return newState;
     }
+    case 'decrement': {
+      const newState = {
+        ...state,
+        count: state.count - state.step,
+      };
+
+      return newState;
+    }
+    case 'setStep': {
+      const newStep = +action.payload;
+
+      const newState = {
+        ...state,
+        step: !isNaN(newStep) ? newStep : state.step
+      };
+
+      return newState;
+    }
     // якщо тип екшена невідомий або відсутній то повертаємо старий стан
     default:
       return state;
@@ -60,4 +78,5 @@ createRoot(document.getElementById('root')).render(
         і отримаємо з нього компонент який буде під'єнано до стану який ви просили
         у mapStateToProps (стан буде у пропсах)
     6.  також у вашому компоненті в пропсах знайдете dispatch щоб відправляти екшени
+    redux react-redux
 */

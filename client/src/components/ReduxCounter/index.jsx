@@ -10,13 +10,26 @@ const ReduxCounter = (props) => {
 
     dispatch(incrementAction);
   };
+  const handleSubtractStep = () => {
 
-  const handleChangeStep = ({ target: { value } }) => {};
+    dispatch({
+      type: 'decrement'
+    });
+  };
+
+  const handleChangeStep = ({ target: { value } }) => {
+
+    dispatch({
+      type: 'setStep',
+      payload: value
+    })
+  };
 
   return (
     <div>
       <p>Count: {count}</p>
       <button onClick={handleAddStep}>Add step</button>
+      <button onClick={handleSubtractStep}>Subtract step</button>
       <label>
         Step:{' '}
         <select value={step} onChange={handleChangeStep}>
