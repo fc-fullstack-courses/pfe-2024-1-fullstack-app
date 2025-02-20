@@ -26,8 +26,8 @@ const ReduxCounter = (props) => {
   return (
     <div>
       <p>Count: {count}</p>
-      <button onClick={increment}>Add step</button>
-      <button onClick={decrement}>Subtract step</button>
+      <button onClick={() => increment()}>Add step</button>
+      <button onClick={() =>decrement()}>Subtract step</button>
       <label>
         Step:{' '}
         <select value={step} onChange={handleChangeStep}>

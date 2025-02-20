@@ -1,4 +1,4 @@
-import ACTION_TYPES from "../actions/actionTypes";
+import { increment, decrement, setStep} from '../actions/actionCreators';
 
 // початковий стан для редюсера
 const initialState = {
@@ -11,7 +11,7 @@ const initialState = {
 export default function counterReducer(state = initialState, action) {
   // по типу екшену визначаємо його логіку
   switch (action.type) {
-    case ACTION_TYPES.INCREMENT: {
+    case increment.type: {
       // створюємо новий стан та повертаємо як результат редюсера
       const newState = {
         ...state,
@@ -20,7 +20,7 @@ export default function counterReducer(state = initialState, action) {
 
       return newState;
     }
-    case ACTION_TYPES.DECREMENT: {
+    case decrement.type: {
       const newState = {
         ...state,
         count: state.count - state.step,
@@ -28,7 +28,7 @@ export default function counterReducer(state = initialState, action) {
 
       return newState;
     }
-    case ACTION_TYPES.SET_STEP: {
+    case setStep.type: {
       const newStep = +action.payload;
 
       const newState = {
