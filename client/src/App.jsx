@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router';
+import { bindActionCreators } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 import Home from './pages/Home';
 import About from './pages/About';
@@ -27,7 +28,6 @@ import { userAuthSuccess } from './store/actions/actionCreators';
 function App() {
   // const [user, setUser] = useState(null);
 
-
   // useSelector приймає функцію-селектор
   // ця функція приймає стан зі стори і повертає будь-що
   // те що поветрає селектор поверається результатом useSelector-а
@@ -37,13 +37,11 @@ function App() {
   // });
 
   const { user, isLoading, error } = useSelector((state) => {
-
     return state.user;
   });
 
   const count = useSelector((state) => {
-
-    return state.counter.count
+    return state.counter.count;
   });
 
   console.log(count);
@@ -51,9 +49,18 @@ function App() {
   // хук який повертає функцію dispatch
   const dispatch = useDispatch();
 
-  const setUser = (user) => {
-    dispatch(userAuthSuccess(user));
-  } 
+  /*
+    функція, приймає об'єкт з action creatoram-и та dispatch
+    та повертає об'єкт функцій яким закручено діспатч переаних action creator-сів
+  */
+  const { userAuthSuccess: setUser } = bindActionCreators(
+    { userAuthSuccess },
+    dispatch
+  );
+
+  // const setUser = (user) => {
+  //   // dispatch(userAuthSuccess(user));
+  // }
 
   useEffect(() => {
     const refreshToken = localStorage.getItem(CONSTANTS.REFRESH_TOKEN_KEY);
