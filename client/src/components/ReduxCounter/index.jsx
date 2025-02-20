@@ -6,26 +6,28 @@ import {
 } from '../../store/actions/actionCreators';
 
 const ReduxCounter = (props) => {
-  const { count, step, dispatch } = props;
+  console.log(props);
+  const { count, step, increment, decrement, setStep, setStepHandler } = props;
 
-  const handleAddStep = () => {
-    const incrementAction = increment();
+  // const handleAddStep = () => {
+  //   const incrementAction = increment();
 
-    dispatch(incrementAction);
-  };
-  const handleSubtractStep = () => {
-    dispatch(decrement());
-  };
+  //   dispatch(incrementAction);
+  // };
+  // const handleSubtractStep = () => {
+  //   dispatch(decrement());
+  // };
 
   const handleChangeStep = ({ target: { value } }) => {
-    dispatch(setStep(value));
+    // dispatch(setStep(value));
+    setStep(value);
   };
 
   return (
     <div>
       <p>Count: {count}</p>
-      <button onClick={handleAddStep}>Add step</button>
-      <button onClick={handleSubtractStep}>Subtract step</button>
+      <button onClick={increment}>Add step</button>
+      <button onClick={decrement}>Subtract step</button>
       <label>
         Step:{' '}
         <select value={step} onChange={handleChangeStep}>
@@ -45,13 +47,39 @@ const mapStateToProps = (state) => {
   return state.counter;
 };
 
+// mapDispatchToProps може бути вказаний декількома шляхами
+
+/*
+  1 спосіб - функція, яка приймає dispatch як аргумент та повертає об'єкт
+  з функціями які будуть передані в пропси елементу аналогчно тому як передавася стан у
+  mapStateToProps. 
+*/
+// const mapDispatchToProps = (dispatch) => {
+
+//   return {
+//     increment: () => dispatch(increment()),
+//     decrement: () => dispatch(decrement()),
+//     setStep: (newStep) => dispatch(setStep(newStep)),
+//     setStepHandler: ({ target: { value } }) => dispatch(setStep(value)),
+//   }
+// }
+
+/*
+  2 спосіб - об'єкт в якому властивостями мають бути екшн креатори
+*/
+const mapDispatchToProps = {
+  increment,
+  decrement,
+  setStep
+}
+
 // withProps - Компонент вищого порядку, який дозволить під'єднати редакс до компоненту
-// const withProps = connect(mapStateToProps);
+// const withProps = connect(mapStateToProps, mapDispatchToProps);
 
 // тут вже буде компонент якому в пропси кинули те що mapStateToProps передав
 // const CounterWithRedux = withProps(ReduxCounter);
 
 // export default CounterWithRedux;
 
-export default connect(mapStateToProps)(ReduxCounter);
+export default connect(mapStateToProps, mapDispatchToProps)(ReduxCounter);
 
