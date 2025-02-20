@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router';
+import { connect } from 'react-redux';
 import Home from './pages/Home';
 import About from './pages/About';
 import AuthLayout from './Layouts/AuthLayout';
@@ -14,9 +15,14 @@ import CONSTANTS from './constants';
 import PrivateRoute from './components/Routes/PrivateRoute';
 import CounterPage from './pages/CounterPage';
 import PublicOnlyRoute from './components/Routes/PublicOnlyRoute';
+import { userAuthSuccess } from './store/actions/actionCreators';
 
-function App() {
-  const [user, setUser] = useState(null);
+function App({user, dispatch}) {
+  // const [user, setUser] = useState(null);
+
+  const setUser = (user) => {
+    dispatch(userAuthSuccess(user));
+  } 
 
   useEffect(() => {
     const refreshToken = localStorage.getItem(CONSTANTS.REFRESH_TOKEN_KEY);
@@ -56,4 +62,12 @@ function App() {
   );
 }
 
-export default App;
+const mStP = (state) => ({
+  ...state.user,
+});
+
+const withProps = connect(mStP);
+
+const AppWithProps = withProps(App);
+
+export default AppWithProps;
