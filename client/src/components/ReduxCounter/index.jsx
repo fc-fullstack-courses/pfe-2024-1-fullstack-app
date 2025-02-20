@@ -46,9 +46,12 @@ const mapStateToProps = (state) => {
 };
 
 // withProps - Компонент вищого порядку, який дозволить під'єднати редакс до компоненту
-const withProps = connect(mapStateToProps);
+// const withProps = connect(mapStateToProps);
 
 // тут вже буде компонент якому в пропси кинули те що mapStateToProps передав
-const CounterWithRedux = withProps(ReduxCounter);
+// const CounterWithRedux = withProps(ReduxCounter);
 
-export default CounterWithRedux;
+// export default CounterWithRedux;
+
+export default connect(mapStateToProps)(ReduxCounter);
+
