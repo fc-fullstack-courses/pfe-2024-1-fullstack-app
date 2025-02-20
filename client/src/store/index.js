@@ -1,8 +1,8 @@
-import { legacy_createStore as createStore } from 'redux';
+import { configureStore } from '@reduxjs/toolkit';
 import rootReducer from './reducers';
-import { composeWithDevTools } from '@redux-devtools/extension';
 
 // створення стори станів редаксу
-const store = createStore(rootReducer, composeWithDevTools());
+// const store = createStore(rootReducer, composeWithDevTools());
+const store = configureStore({ reducer: rootReducer });
 
 export default store;
