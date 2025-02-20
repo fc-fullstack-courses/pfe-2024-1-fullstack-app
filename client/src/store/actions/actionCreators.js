@@ -21,3 +21,8 @@ export const userAuthSuccess = (user) => ({
 export const logout = () => ({
   type: ACTION_TYPES.USER_LOGOUT,
 });
+
+export const changeTheme = (newTheme) => ({
+  type: ACTION_TYPES.CHANGE_THEME,
+  payload: newTheme,
+});
