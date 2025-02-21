@@ -19,6 +19,7 @@ import ACTION_TYPES from './actionTypes';
 export const increment = createAction('increment');
 export const decrement = createAction('decrement');
 export const setStep = createAction('setStep');
+export const resetCounter = createAction('resetCounter');
 
 // const act1 = increment();
 // console.log('act1:');

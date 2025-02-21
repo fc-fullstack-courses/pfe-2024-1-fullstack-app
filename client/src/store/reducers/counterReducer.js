@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { increment, decrement, setStep } from '../actions/actionCreators';
+import { increment, decrement, setStep, resetCounter } from '../actions/actionCreators';
 
 // початковий стан для редюсера
 const initialState = {
@@ -65,6 +65,11 @@ const counterReducer = createReducer(initialState, (builder) => {
 
   builder.addCase(setStep, (state, action) => {
     state.step = !isNaN(+action.payload) ? +action.payload : state.step;
+  });
+
+  // скидання стейту до початкового
+  builder.addCase(resetCounter, () => {
+    return initialState;
   });
 });
 
