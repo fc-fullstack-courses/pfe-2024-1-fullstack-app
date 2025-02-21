@@ -8,3 +8,7 @@
 приклади стрінги стану
   'darkTheme'
   'lightTheme'
+
+2.  з допомогою методу createAsyncThunk перенести логіку асинхроних запитів
+    на маршрутах login та registration для слайса юзерів
+    
