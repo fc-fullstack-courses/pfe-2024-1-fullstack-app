@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import rootReducer from './reducers';
+import rootReducer from './slices';
 
 // створення стори станів редаксу
 // const store = createStore(rootReducer, composeWithDevTools());

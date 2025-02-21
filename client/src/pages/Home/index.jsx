@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import CONSTANTS from '../../constants';
-import { changeTheme } from '../../store/actions/actionCreators';
+import { changeTheme } from '../../store/slices/themeSlice';
 
 const { THEMES } = CONSTANTS;
 

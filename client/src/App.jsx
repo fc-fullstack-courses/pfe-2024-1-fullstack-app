@@ -16,7 +16,7 @@ import CONSTANTS from './constants';
 import PrivateRoute from './components/Routes/PrivateRoute';
 import CounterPage from './pages/CounterPage';
 import PublicOnlyRoute from './components/Routes/PublicOnlyRoute';
-import { userAuthSuccess } from './store/actions/actionCreators';
+import { userAuthSuccess } from './store/slices/userSlice';
 
 /*
   хуки  react-redux
