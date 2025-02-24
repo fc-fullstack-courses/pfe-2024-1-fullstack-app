@@ -1,15 +1,15 @@
 import { NavLink, useLocation } from 'react-router';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './AuthNav.module.scss';
-import { useContext } from 'react';
-import { UserContext } from '../../contexts';
-import { logout } from '../../api';
+import { logout } from '../../store/slices/userSlice'; 
 
 const setActive = ({ isActive }) =>
   isActive ? styles.activeLink : styles.link;
 
 const AuthNav = () => {
   const location = useLocation();
-  const [user, setUser] = useContext(UserContext);
+  const {user, isLoading, error } = useSelector(state => state.user);
+  const dispatch = useDispatch();
 
   const isAuthPage = location.pathname.includes('auth');
   const isLoginPage = location.pathname.includes('login');
@@ -35,8 +35,7 @@ const AuthNav = () => {
   );
 
   const logoutBtn = <button onClick={() => {
-    logout();
-    setUser(null);
+    dispatch(logout());
   }}>Logout</button>
 
   return (

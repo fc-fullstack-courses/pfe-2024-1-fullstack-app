@@ -1,9 +1,8 @@
-import { useContext } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { USER_LOGIN_SCHEMA } from '../../validation/userValidation';
 import styles from './LoginForm.module.scss';
-import { UserContext } from '../../contexts';
-import { login } from '../../api';
+import { login } from '../../store/slices/userSlice';
 
 const initialValues = {
   email: '',
@@ -11,13 +10,11 @@ const initialValues = {
 };
 
 const LoginForm = () => {
-  const [, setUser] = useContext(UserContext);
+  const {user, isLoading, error } = useSelector(state => state.user);
+  const dispatch = useDispatch();
 
   const handleSubmit = async (values, formikBag) => {
-    
-    const user = await login(values);
-
-    setUser(user);
+    dispatch(login(values));
 
     formikBag.resetForm();
   };

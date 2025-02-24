@@ -1,10 +1,9 @@
-import { useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import cx from 'classnames';
 import { USER_REGISTRATION_SCHEMA } from '../../validation/userValidation';
 import styles from './RegistrationForm.module.scss';
-import { UserContext } from '../../contexts';
-import { registerUser } from '../../api';
+import { register } from '../../store/slices/userSlice';
 
 const initialValues = {
   firstName: '',
@@ -17,7 +16,8 @@ const initialValues = {
 };
 
 const RegistrationForm = () => {
-  const [, setUser] = useContext(UserContext);
+  const {user, isLoading, error } = useSelector(state => state.user);
+  const dispatch = useDispatch();
 
   const handleSubmit = async (values, formikBag) => {
     const { gender, ...restOfUserData } = values;
@@ -27,10 +27,7 @@ const RegistrationForm = () => {
       isMale: gender === 'male',
     };
     
-    const registeredUser = await registerUser(newUserData);
-
-    setUser(registeredUser);
-    window.localStorage.setItem('refresh', registeredUser.id);
+    dispatch(register(newUserData));
 
     formikBag.resetForm();
   };
