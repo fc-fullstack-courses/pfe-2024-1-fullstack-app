@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { useContext } from 'react';
 import { UserContext } from '../../contexts';
 import styles from './UserProfile .module.scss';
+import CONSTANTS from '../../constants';
 
 function UserProfile() {
 
@@ -12,7 +13,7 @@ function UserProfile() {
     <article className={styles.userProfile}>
       <img
         className={styles.userAvatar}
-        src={imgSrc}
+        src={`${CONSTANTS.SERVER_URL}/images/${imgSrc}`}
         alt={`${firstName}${lastName}`}
       />
       <h2 className={styles.userName}>
