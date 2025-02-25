@@ -4,6 +4,7 @@ import cx from 'classnames';
 import { USER_UPDATE_SCHEMA } from '../../validation/userValidation';
 import styles from './UserUpdateForm.module.scss';
 import { updateUser } from '../../store/slices/userSlice';
+import FileInput from '../FileInput';
 
 const initialValues = {
   firstName: '',
@@ -20,22 +21,20 @@ const UserUpdateForm = () => {
   const { user, isLoading, error } = useSelector((state) => state.user);
 
   const handleSubmit = (values, formikBag) => {
-    const userUpdatedFields = {};
+    // const userUpdatedFields = {};
+    const userData = new FormData();
 
     Object.entries(values).forEach(([key, value]) => {
       if(value !== '' && key !== 'gender') {
-        userUpdatedFields[key] = value;
+        userData.set(key, value);
+        // userUpdatedFields[key] = value;
       } else if (value !== '' && key === 'gender') {
-        userUpdatedFields.isMale = value === 'male';
+        // userUpdatedFields.isMale = value === 'male';
+        userData.set(key, value === 'male'); // TODO fix bug 
       }
     });
 
-    // setUser({
-    //   ...user,
-    //   ...userUpdatedFields
-    // });
-
-    dispatch(updateUser({ userData: userUpdatedFields, userId: user.id }));
+    dispatch(updateUser({ userData: userData, userId: user.id }));
 
     formikBag.resetForm();
   };
@@ -152,6 +151,23 @@ const UserUpdateForm = () => {
           </div>
           <ErrorMessage name='gender' component='p' className={styles.error} />
         </fieldset>
+
+        <div className={styles.inputContainer}>
+          <label htmlFor='imgSrc' className={styles.label}>
+            Profile image:
+          </label>
+          <FileInput
+            name='imgSrc'
+            type='file'
+            id='imgSrc'
+            className={styles.input}
+          />
+        </div>
+        <ErrorMessage
+          name='imgSrc'
+          component='p'
+          className={styles.error}
+        />
 
         <div className={styles.btnContainer}>
           <button type='submit' className={styles.btn}>
