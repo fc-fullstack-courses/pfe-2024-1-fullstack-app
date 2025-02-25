@@ -57,6 +57,20 @@ const register = createAsyncThunk(
   }
 );
 
+const updateUser = createAsyncThunk(
+  `${SLICE_NAME}/update`,
+  async ({userData, userId }, thunkAPI) => {
+    try {
+      
+      const user = await API.updateUser(userId, userData);
+
+      return user;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response.data.errors);
+    }
+  }
+);
+
 const userSlice = createSlice({
   initialState,
   name: SLICE_NAME,
@@ -112,6 +126,21 @@ const userSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload;
     });
+
+    builder.addCase(updateUser.pending, (state) => {
+      state.isLoading = true;
+    });
+    
+    builder.addCase(updateUser.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.user = action.payload;
+      state.error = null;
+    });
+    
+    builder.addCase(updateUser.rejected, (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload;
+    });
   }
 });
 
@@ -119,4 +148,4 @@ const { reducer: userReducer, actions } = userSlice;
 
 export default userReducer;
 export const { logout } = actions;
-export { refresh, login, register };
+export { refresh, login, register, updateUser };

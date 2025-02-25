@@ -1,9 +1,9 @@
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { useSelector, useDispatch } from 'react-redux';
 import cx from 'classnames';
 import { USER_UPDATE_SCHEMA } from '../../validation/userValidation';
 import styles from './UserUpdateForm.module.scss';
-import { UserContext } from '../../contexts';
-import { useContext } from 'react';
+import { updateUser } from '../../store/slices/userSlice';
 
 const initialValues = {
   firstName: '',
@@ -16,7 +16,8 @@ const initialValues = {
 };
 
 const UserUpdateForm = () => {
-  const [user, setUser] = useContext(UserContext);
+  const dispatch = useDispatch();
+  const { user, isLoading, error } = useSelector((state) => state.user);
 
   const handleSubmit = (values, formikBag) => {
     const userUpdatedFields = {};
@@ -29,10 +30,12 @@ const UserUpdateForm = () => {
       }
     });
 
-    setUser({
-      ...user,
-      ...userUpdatedFields
-    });
+    // setUser({
+    //   ...user,
+    //   ...userUpdatedFields
+    // });
+
+    dispatch(updateUser({ userData: userUpdatedFields, userId: user.id }));
 
     formikBag.resetForm();
   };
@@ -152,7 +155,7 @@ const UserUpdateForm = () => {
 
         <div className={styles.btnContainer}>
           <button type='submit' className={styles.btn}>
-            Register
+            Update User data
           </button>
           <button type='reset' className={styles.btn}>
             Reset fields
