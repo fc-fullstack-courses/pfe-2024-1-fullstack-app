@@ -53,8 +53,11 @@ module.exports.updateUser = async (req, res, next) => {
   try {
     const { user, validatedBody } = req;
 
+    // const isMale = typeof validatedBody.isMale === 'string' && validatedBody.isMale === 'true' ? true : false; 
+
     const updatedUser = await user.update({
       ...validatedBody,
+      // isMale,
       imgSrc: req.file ? req.file.filename : user.imgSrc,
     });
 

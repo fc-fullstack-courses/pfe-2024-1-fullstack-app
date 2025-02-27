@@ -30,7 +30,7 @@ const UserUpdateForm = () => {
         // userUpdatedFields[key] = value;
       } else if (value !== '' && key === 'gender') {
         // userUpdatedFields.isMale = value === 'male';
-        userData.set(key, value === 'male'); // TODO fix bug 
+        userData.set('isMale', value === 'male'); 
       }
     });
 
