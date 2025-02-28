@@ -1,0 +1,11 @@
+.chatListContainer {
+  max-height: 400px; /* Встановлюємо максимальну висоту */
+  overflow-y: auto; /* Додаємо вертикальний скрол */
+  padding-right: 10px; /* Додаємо відступ праворуч для скролу */
+}
+
+.chatList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}

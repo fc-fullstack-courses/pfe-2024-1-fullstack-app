@@ -1,0 +1,25 @@
+.chatItem {
+  margin-bottom: 15px;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.chatItem:hover {
+  background-color: #f1f1f1; 
+}
+
+.chatItemHeader {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.chatItemContent p {
+  font-size: 1rem;
+  color: #555;
+  margin: 0;
+}

@@ -1,0 +1,39 @@
+.chatPageContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px;
+  min-height: 80vh;
+}
+
+.chatListContainer {
+  flex: 1;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  padding: 15px;
+
+}
+
+.chatFormContainer {
+  flex: 1;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.chatAreaContainer {
+  flex: 3;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto; 
+  max-height: 700px;
+}
+
+h2 {
+  margin-bottom: 15px;
+  color: #333;
+}

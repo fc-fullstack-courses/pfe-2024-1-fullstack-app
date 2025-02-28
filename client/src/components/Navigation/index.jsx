@@ -33,6 +33,11 @@ function Navigation() {
             Counter
           </NavLink>
         </li>
+        <li className={styles.navigationItem}>
+          <NavLink to="/chats" className={setActive}>
+            Chats
+          </NavLink>
+        </li>
       </ul>
     </nav>
   );

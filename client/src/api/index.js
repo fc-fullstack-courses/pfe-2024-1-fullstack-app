@@ -137,3 +137,37 @@ export async function deleteUser(userId) {
 
   return user;
 }
+
+export const getChats = async (userId) => {
+  const {
+    data: { data },
+  } = await httpClient.get(`/chats/users/${userId}`);
+  return data;
+};
+
+export const getMessages = async (chatId) => {
+  const {
+    data: { data },
+  } = await httpClient.get(`/chats/${chatId}/messages`);
+
+  return data;
+};
+
+export const createNewChat = async (chatName, userIds) => {
+  const {
+    data: { data: chat },
+  } = await httpClient.post('/chats', { name: chatName, userIds });
+
+  return chat;
+};
+
+export const sendMessage = async ({ chatId, text, authorId }) => {
+  const {
+    data: { data: message },
+  } = await httpClient.post(`/chats/${chatId}/messages`, {
+    text,
+    authorId,
+  });
+
+  return message;
+};
