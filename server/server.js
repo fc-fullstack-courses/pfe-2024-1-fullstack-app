@@ -2,6 +2,7 @@ const http = require('http');
 const { Server } = require('socket.io');
 const app = require('./app');
 const serverConfig = require('./configs/server.json');
+const { ChatMessage } = require('./db/models');
 
 const PORT = serverConfig.PORT;
 const HOST = serverConfig.HOST;
@@ -11,8 +12,8 @@ const server = http.createServer(app);
 // io - екземпляр сервера вебсокетів
 const io = new Server(server, {
   cors: {
-    origin: '*'
-  }
+    origin: '*',
+  },
 });
 
 /*
@@ -21,7 +22,6 @@ const io = new Server(server, {
   2 аргумент - коллбек який треба запсустити коли прийшла подія
 */
 io.on('connection', (socket) => {
-
   // socket - це екземпляр з'еднання з клієнтом
   console.log('socket connected to server');
 
@@ -37,8 +37,24 @@ io.on('connection', (socket) => {
     // персональна єміт для конкретного клієнта події 'userBtnClick' (аналог res.send)
     // socket.emit('userBtnClick', false, null, 500, 'test user message');
 
-    // єміт для всіх під'єднаних клієнтів події 'userBtnClick' 
+    // єміт для всіх під'єднаних клієнтів події 'userBtnClick'
     io.emit('userBtnClick', false, null, 500, 'test user message');
+  });
+
+  socket.on('newChatMessage', async (newMessageData) => {
+    try {
+      const message = await ChatMessage.create(newMessageData);
+
+      const author = await message.getAuthor();
+
+      const messageToSend = message.toJSON();
+
+      messageToSend.author= author;
+
+      io.emit('newChatMessage', messageToSend);
+    } catch (error) {
+      socket.emit('newChatMessageError', error);
+    }
   });
 });
 

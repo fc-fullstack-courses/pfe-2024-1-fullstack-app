@@ -1,5 +1,7 @@
 import { io } from "socket.io-client";
 import CONSTANTS from "../constants";
+import store from '../store';
+import { newMessage, newMessageError } from "../store/slices/chatSlice";
 
 // socket - екземпляр з'єднання з сервером
 const socket = io(CONSTANTS.WS_SERVER_URL);
@@ -19,4 +21,16 @@ socket.on('userBtnClick', (param1, param2, param3, param4) => {
   console.log(param2); 
   console.log(param3); 
   console.log(param4); 
+});
+
+export const sendNewChatMessage = (messageData) => {
+  socket.emit('newChatMessage', messageData);
+}
+
+socket.on('newChatMessage', (newMessageData) => {
+  store.dispatch(newMessage(newMessageData))
+});
+
+socket.on('newChatMessageError', (error) => {
+  store.dispatch(newMessageError(error));
 });

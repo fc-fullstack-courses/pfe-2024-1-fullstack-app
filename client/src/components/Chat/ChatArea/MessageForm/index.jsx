@@ -1,25 +1,17 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { sendMessageToChat } from '../../../../store/slices/chatSlice';
 import { useSelector } from 'react-redux';
 import styles from './MessageForm.module.scss';
+import { sendNewChatMessage } from '../../../../api/ws';
 
 const MessageForm = ({ chatId }) => {
   const [messageText, setMessageText] = useState('');
   const { user } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
 
   const handleSendMessage = (e) => {
     e.preventDefault();
 
     if (messageText.trim() !== '') {
-      dispatch(
-        sendMessageToChat({
-          chatId,
-          text: messageText,
-          authorId: user.id,
-        })
-      );
+      sendNewChatMessage({chatId, authorId: user.id, text: messageText});
 
       setMessageText('');
     }

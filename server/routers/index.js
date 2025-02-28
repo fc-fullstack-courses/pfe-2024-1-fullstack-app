@@ -6,7 +6,7 @@ const { checkAccessToken } = require('../middlewares/tokenMW');
 
 rootRouter.use('/users', userRouter);
 rootRouter.use('/auth', authRouter);
-rootRouter.use('/chats',checkAccessToken, chatRouter);
+rootRouter.use('/chats', chatRouter);
 
 rootRouter.get('/secret', checkAccessToken, (req, res, next) => {
   res.status(200).send({ data: 'secret data' });

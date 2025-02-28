@@ -49,17 +49,6 @@ export const createChat = createAsyncThunk(
   }
 );
 
-export const sendMessageToChat = createAsyncThunk(
-  `${SLICE_NAME}/sendMessage`,
-  async ({ chatId, text, authorId }, thunkApi) => {
-    try {
-      return await sendMessage({ chatId, text, authorId });
-    } catch (error) {
-      return thunkApi.rejectWithValue(error.response?.data?.errors);
-    }
-  }
-);
-
 const chatSlice = createSlice({
   initialState,
   name: SLICE_NAME,
@@ -69,6 +58,16 @@ const chatSlice = createSlice({
         (chat) => chat.id === action.payload
       );
     },
+    newMessage: (state, action) => {
+      if(action.payload.chatId === state?.currentChat?.id) {
+        Array.isArray(state.currentChat.messages)
+          ? state.currentChat.messages.push(action.payload)
+          : [action.payload];
+      }
+    },
+    newMessageError: (state, action) => {
+      state.error = action.payload;
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -92,19 +91,10 @@ const chatSlice = createSlice({
         state.chats.push(action.payload);
       })
       .addCase(createChat.rejected, handleRejected)
-
-      .addCase(sendMessageToChat.pending, handlePending)
-      .addCase(sendMessageToChat.fulfilled, (state, action) => {
-        handleFulfilled(state, action);
-        Array.isArray(state.currentChat.messages)
-          ? state.currentChat.messages.push(action.payload)
-          : [action.payload];
-      })
-      .addCase(sendMessageToChat.rejected, handleRejected);
   },
 });
 
 const { reducer: chatReducer } = chatSlice;
 
 export default chatReducer;
-export const { selectCurrentChat } = chatSlice.actions;
+export const { selectCurrentChat, newMessage, newMessageError } = chatSlice.actions;
