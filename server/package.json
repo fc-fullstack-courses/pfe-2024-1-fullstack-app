@@ -4,7 +4,8 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "start": "nodemon ./server.js"
+    "start": "nodemon ./server.js",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
