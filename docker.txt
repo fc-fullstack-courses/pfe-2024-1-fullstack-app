@@ -1,0 +1,8 @@
+Команда для підняття контейнера БД
+
+docker run -dit --name postgres-container -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=fullstack-project -p 9999:5432 -v ~/Documents/fc/2024/PFE-2024-1/backups/fullstack-app:/var/lib/postgresql/data postgres:alpine
+
+де
+  -e - змінні оточення для паролю та назви БД
+  -p - спискок зв'язаних портів хоста та контейнера
+  -v список зв'язаних папок на хості та у контейнері (вольюмси)

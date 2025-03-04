@@ -3,7 +3,7 @@
     {
       "previewLimit": 50,
       "server": "localhost",
-      "port": 5432,
+      "port": 9999,
       "driver": "PostgreSQL",
       "name": "fullstack-project",
       "database": "fullstack-project",
